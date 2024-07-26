@@ -1,0 +1,60 @@
+sudo apt-get update
+sudo apt-get install postgresql postgresql-contrib
+CREATE DATABASE fintech;
+\c fintech
+
+CREATE TABLE users (
+  id SERIAL PRIMARY KEY,
+  username VARCHAR(50) UNIQUE NOT NULL,
+  password VARCHAR(100) NOT NULL,
+  balance DECIMAL DEFAULT 0.0
+);
+
+CREATE TABLE transactions (
+  id SERIAL PRIMARY KEY,
+  user_id INT REFERENCES users(id),
+  type VARCHAR(10) CHECK (type IN ('deposit', 'withdrawal')),
+  amount DECIMAL NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+hasura console
+mkdir fintech-backend
+cd fintech-backend
+npm init -y
+npm install express axios jsonwebtoken
+// server.js
+const express = require('express');
+const axios = require('axios');
+const jwt = require('jsonwebtoken');
+const app = express();
+const port = 3000;
+
+// Middleware and Routes go here
+
+app.listen(port, () => {
+  console.log(`Server running at http://localhost:${port}`);
+});
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fintech Platform</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- UI elements go here -->
+  <script src="app.js"></script>
+</body>
+</html>
+/* styles.css */
+body {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+}
+/* More styles here */
+// app.js
+document.addEventListener('DOMContentLoaded', () => {
+  // Frontend logic and API calls go here
+});
